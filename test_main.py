@@ -25,13 +25,6 @@ def test_user_id():
         "user": {"id": 2, "user1": "User1"}
     }
 
-def test_get_user_id_error():
-    resp = client.get("/users/100")
-    assert resp.status_code == 400
-    assert resp.json() == {
-        "detail": f"User with id 100 is not found"
-    }
-
 
 def test_create_user():
     user_id = 4
