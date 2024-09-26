@@ -17,12 +17,21 @@ def test_all_users():
         "users": users
     }
 
-def test_user_exception():
-    resp = client.get("/users/8")
+
+def test_user_id():
+    resp = client.get("/users/2")
+    assert resp.status_code == 200
+    assert resp.json() == {
+        "user": {"id": 2, "user1": "User1"}
+    }
+
+def test_get_user_id_error():
+    resp = client.get("/users/100")
     assert resp.status_code == 400
     assert resp.json() == {
-        "detail": f"User with id 10 not found"
+        "detail": f"User with id 100 is not found"
     }
+
 
 def test_create_user():
     user_id = 4
@@ -32,10 +41,11 @@ def test_create_user():
                        )
     assert resp.status_code == 201
     assert resp.json() == {
-        "new user": {"id": user_id, "title": title},
+        "new user": {"id": user_id, "title": title}
     }
 
 
 def test_delete_user():
     resp = client.delete(f"/users/3")
     assert resp.status_code == 204
+
